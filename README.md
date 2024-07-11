@@ -13,9 +13,9 @@ Generate project:
 
 ```
 mvn archetype:generate -B \
-    -DarchetypeGroupId=com.github.enr \
-    -DarchetypeArtifactId=library-archetype \
-    -DarchetypeVersion=0.0.2 \
+    -DarchetypeGroupId=com.github.enr.archetypes \
+    -DarchetypeArtifactId=library-maven-archetype \
+    -DarchetypeVersion=0.0.5 \
     -DgroupId=com.example \
     -DartifactId=mylibrary \
     -Dpackage=com.example.library \

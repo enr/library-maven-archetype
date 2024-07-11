@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo 1
+
+tool_source="${BASH_SOURCE[0]}"
+while [ -h "$tool_source" ] ; do tool_source="$(readlink "$tool_source")"; done
+sdlc_dir="$( cd -P "$( dirname "$tool_source" )" && pwd )"
+prj_home="$( cd -P "$( dirname "$sdlc_dir" )" && pwd )"
+
+echo 2
+
+cd "${prj_home}"
+
+pwd
+
+hash mvn 2>/dev/null || {
+  echo 'No Maven executable: aborting'
+  exit 1
+}
+
+echo 3
+archetype_version=$(mvn org.apache.maven.plugins:maven-help-plugin:3.4.1:evaluate -Dexpression=project.version -q -DforceStdout)
+
+echo "Build archetype version ${archetype_version}"
+
+mvn install
+
+mkdir -p target/generate
+
+cd target/generate
+
+mvn archetype:generate -B \
+    -DarchetypeGroupId=com.github.enr.archetypes \
+    -DarchetypeArtifactId=library-maven-archetype \
+    "-DarchetypeVersion=${archetype_version}" \
+    -DgroupId=com.example \
+    -DartifactId=mylibrary \
+    -Dpackage=com.example.library \
+    -Dversion=0.0.0
+
+cd mylibrary
+
+mvn install
+
+ls -al
