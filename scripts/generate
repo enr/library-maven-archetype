@@ -2,30 +2,23 @@
 
 set -e
 
-echo 1
-
 tool_source="${BASH_SOURCE[0]}"
 while [ -h "$tool_source" ] ; do tool_source="$(readlink "$tool_source")"; done
 sdlc_dir="$( cd -P "$( dirname "$tool_source" )" && pwd )"
 prj_home="$( cd -P "$( dirname "$sdlc_dir" )" && pwd )"
 
-echo 2
-
 cd "${prj_home}"
-
-pwd
 
 hash mvn 2>/dev/null || {
   echo 'No Maven executable: aborting'
   exit 1
 }
 
-echo 3
 archetype_version=$(mvn org.apache.maven.plugins:maven-help-plugin:3.4.1:evaluate -Dexpression=project.version -q -DforceStdout)
 
 echo "Build archetype version ${archetype_version}"
 
-mvn install
+mvn clean install
 
 mkdir -p target/generate
 
@@ -43,5 +36,7 @@ mvn archetype:generate -B \
 cd mylibrary
 
 mvn install
+
+mvn org.codehaus.mojo:versions-maven-plugin:2.17.0:display-dependency-updates 
 
 ls -al
