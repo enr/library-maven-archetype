@@ -14,7 +14,7 @@ hash mvn 2>/dev/null || {
   exit 1
 }
 
-archetype_version=$(mvn org.apache.maven.plugins:maven-help-plugin:3.4.1:evaluate -Dexpression=project.version -q -DforceStdout)
+archetype_version=$(mvn org.apache.maven.plugins:maven-help-plugin:3.5.1:evaluate -Dexpression=project.version -q -DforceStdout)
 
 echo "Build archetype version ${archetype_version}"
 
@@ -37,6 +37,13 @@ cd mylibrary
 
 mvn install
 
-mvn org.codehaus.mojo:versions-maven-plugin:2.17.0:display-dependency-updates 
+echo -n "--- fmt " && pwd
+/bin/bash .sdlc/fmt
+
+echo -n "--- ci " && pwd
+/bin/bash .sdlc/ci
+
+echo -n "--- available dependencies " && pwd
+/bin/bash .sdlc/available-updates
 
 ls -al

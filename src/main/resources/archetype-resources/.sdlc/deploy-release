@@ -15,13 +15,13 @@ hash mvn 2>/dev/null || {
 }
 
 # Comma-delimited list of profiles to activate
-mvn_profiles='ci'
+mvn_profiles='release'
 
 mvn_settings_path="${prj_home}/.mvn/settings.xml"
 [[ -e "$mvn_settings_path" ]] || {
   echo "Maven settings file '${mvn_settings_path}' not found: local install"
   mvn --no-transfer-progress --batch-mode --activate-profiles "$mvn_profiles" install
-  exit
+  exit 1
 }
 
 echo "Deploy using Maven settings '${mvn_settings_path}'"
