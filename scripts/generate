@@ -46,4 +46,12 @@ echo -n "--- ci " && pwd
 echo -n "--- available dependencies " && pwd
 /bin/bash .sdlc/available-updates
 
-ls -al
+git init .
+git add .
+git commit -a -m "Initial commit"
+
+echo -n "--- update dependencies " && pwd
+/bin/bash .sdlc/update-deps
+
+echo -n "--- dependencies diff " && pwd
+git --no-pager diff
