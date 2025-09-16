@@ -17,13 +17,13 @@ mvn install
 Full check (test and formatting):
 
 ```
-mvn -Pci
+.sdlc/ci
 ```
 
 Repair formatting:
 
 ```
-mvn -Pfmt
+.sdlc/fmt
 ```
 
 Fast build (skip any check and file generation):
